@@ -5,7 +5,7 @@ public enum OperationStateEnum implements State {
 
 	@Override
 	public Key getKey() {
-		return null;
+		return Enums.getKey(this);
 	}
 
 }
