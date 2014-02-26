@@ -1,5 +1,5 @@
 package com.hamster.model;
 
-public interface OperationRole extends Entity {
+public interface OperationRole extends Persistable {
 
 }

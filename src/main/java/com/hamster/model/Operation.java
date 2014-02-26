@@ -4,20 +4,19 @@ import java.util.Date;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
-import com.hamster.utils.Dates;
 
-public class Operation implements Entity {
+public class Operation implements Persistable {
 
 	private static final long serialVersionUID = 1L;
 	
 	private final Key key;
 	private Date creationDate;
-	private Amount amount;
+	private PaymentCondition paymentCondition;
 	private State state;
 	private Type type;
 
 	public Operation() {
-		this(new EmptyKey());
+		this(EmptyKey.DEFAULT);
 	}
 
 	public Operation(Key key) {
@@ -29,20 +28,20 @@ public class Operation implements Entity {
 		return key;
 	}
 
-	public Amount getAmount() {
-		return amount;
-	}
-
-	public void setAmount(Amount amount) {
-		this.amount = amount;
-	}
-
 	public Date getCreationDate() {
-		return Dates.get(creationDate);
+		return creationDate;
 	}
 
 	public void setCreationDate(Date creationDate) {
-		this.creationDate = Dates.get(creationDate);
+		this.creationDate = creationDate;
+	}
+
+	public PaymentCondition getPaymentCondition() {
+		return paymentCondition;
+	}
+
+	public void setPaymentCondition(PaymentCondition paymentCondition) {
+		this.paymentCondition = paymentCondition;
 	}
 
 	public State getState() {
@@ -77,7 +76,7 @@ public class Operation implements Entity {
         return Objects.toStringHelper(this)
         			.add("key", key)
         			.add("creationDate", creationDate)
-        			.add("amount", amount)
+        			.add("paymentCondition", paymentCondition)
         			.add("state", state)
         			.add("type", type)
         				.toString();
