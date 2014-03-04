@@ -3,13 +3,14 @@ package com.hamster.model;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 
-public class PersonContact implements Persistable {
+public class PersonContact implements Persistable, Stateable, Typeable {
 
 	private static final long serialVersionUID = 1L;
 
 	private final Key key;
 	private Key personKey;
 	private Type type;
+	private State state;
 	private String value;
 	private boolean main;
 	
@@ -34,12 +35,22 @@ public class PersonContact implements Persistable {
 		this.personKey = personKey;
 	}
 
+	@Override
 	public Type getType() {
 		return type;
 	}
 
 	public void setType(Type type) {
 		this.type = type;
+	}
+
+	@Override
+	public State getState() {
+		return state;
+	}
+
+	public void setState(State state) {
+		this.state = state;
 	}
 
 	public String getValue() {
@@ -75,6 +86,7 @@ public class PersonContact implements Persistable {
         			.add("key", key)
         			.add("personKey", personKey)
         			.add("type", type)
+        			.add("state", state)
         			.add("value", value)
         			.add("main", main)
         				.toString();

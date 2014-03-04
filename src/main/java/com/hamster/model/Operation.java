@@ -5,7 +5,7 @@ import java.util.Date;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 
-public class Operation implements Persistable {
+public class Operation implements Persistable, Stateable, Typeable {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -44,6 +44,7 @@ public class Operation implements Persistable {
 		this.paymentCondition = paymentCondition;
 	}
 
+	@Override
 	public State getState() {
 		return state;
 	}
@@ -52,6 +53,7 @@ public class Operation implements Persistable {
 		this.state = state;
 	}
 
+	@Override
 	public Type getType() {
 		return type;
 	}

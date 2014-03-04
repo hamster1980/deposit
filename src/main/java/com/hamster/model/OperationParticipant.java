@@ -3,13 +3,14 @@ package com.hamster.model;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 
-public class OperationParticipant implements Persistable {
+public class OperationParticipant implements Persistable, Stateable, Typeable {
 
 	private static final long serialVersionUID = 1L;
 
 	private final Key key;
 	private Key personKey;
 	private Key operationKey;
+	private State state;
 	private OperationRole role;
 
 	public OperationParticipant() {
@@ -41,12 +42,26 @@ public class OperationParticipant implements Persistable {
 		this.operationKey = operationKey;
 	}
 
+	@Override
+	public State getState() {
+		return state;
+	}
+
+	public void setState(State state) {
+		this.state = state;
+	}
+
 	public OperationRole getRole() {
 		return role;
 	}
 
 	public void setRole(OperationRole role) {
 		this.role = role;
+	}
+
+	@Override
+	public Type getType() {
+		return getRole();
 	}
 
 	@Override
@@ -67,6 +82,7 @@ public class OperationParticipant implements Persistable {
         			.add("personKey", personKey)
         			.add("operationKey", operationKey)
         			.add("role", role)
+        			.add("state", state)
         				.toString();
     }
 

@@ -1,7 +1,9 @@
 package com.hamster.model;
 
-public enum OperationStateEnum implements State {
-	INITED,
+public enum PersonContactStateEnum implements State {
+	WAITED,
+	CONFIRMED,
+	REMOVED
 	;
 
 	@Override

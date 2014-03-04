@@ -1,6 +1,7 @@
 package com.hamster.model;
 
 public enum OperationTypeEnum implements Type {
+	FLAT_RENTING,
 	;
 
 	@Override

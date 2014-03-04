@@ -1,9 +1,10 @@
 package com.hamster.model;
 
-public enum OperationStateEnum implements State {
-	INITED,
+public enum OperationParticipantStateEnum implements State {
+	WAITED,
+	CONFIRMED,
 	;
-
+	
 	@Override
 	public Key getKey() {
 		return Enums.getKey(this);
