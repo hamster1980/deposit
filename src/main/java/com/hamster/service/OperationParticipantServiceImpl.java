@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hamster.model.OperationParticipant;
-import com.hamster.operation.OperationParticipantRepository;
+import com.hamster.repository.OperationParticipantRepository;
 
 @Service("operationParticipantService")
 @Transactional

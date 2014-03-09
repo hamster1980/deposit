@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.hamster.model.Operation;
 import com.hamster.model.OperationParticipant;
 import com.hamster.model.PaymentCondition;
-import com.hamster.operation.OperationRepository;
+import com.hamster.repository.OperationRepository;
 
 @Service("operationService")
 @Transactional

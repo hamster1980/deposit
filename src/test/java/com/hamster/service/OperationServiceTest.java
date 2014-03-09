@@ -1,12 +1,20 @@
 package com.hamster.service;
 
-public class OperationServiceTest {
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+
+public class OperationServiceTest extends AbstractServiceTest{
 /*
- * 1.start db before test suite
- * 2.easy way to change implementation
  * start operation
  * 1. unexisted person
  * 2. correct start. check state, operation key, 
  * 3. amount constraints
  */
+	@Autowired
+	private OperationService service;
+	
+	@Test
+	public void testStart() {
+		service.start(null, null);
+	}
 }
