@@ -1,23 +1,36 @@
 package com.hamster.model;
 
+import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 
+@Entity
+@Table(name="PERSON")
 public class Person implements Persistable {
 
 	private static final long serialVersionUID = 1L;
 
-	private final Key key;
+	@EmbeddedId
+	private final StringKey key;
+	@Column(name="FIRST_NAME")
 	private String firstName;
+	@Column(name="SECOND_NAME")
 	private String secondName;
+	@Column(name="LAST_NAME")
 	private String lastName;
+	@Transient
 	private Type mainContactType;
 	
 	public Person() {
-		this(EmptyKey.DEFAULT);
+		this(StringKey.EMPTY_KEY);
 	}
 	
-	public Person(Key key) {
+	public Person(StringKey key) {
 		this.key = Preconditions.checkNotNull(key);
 	}
 

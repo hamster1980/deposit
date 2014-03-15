@@ -3,6 +3,8 @@ package com.hamster.service;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.hamster.model.OperationParticipant;
+
 public class OperationServiceTest extends AbstractServiceTest{
 /*
  * start operation
@@ -15,6 +17,7 @@ public class OperationServiceTest extends AbstractServiceTest{
 	
 	@Test
 	public void testStart() {
-		service.start(null, null);
+		OperationParticipant author = new OperationParticipant();
+		service.start(null, author);
 	}
 }

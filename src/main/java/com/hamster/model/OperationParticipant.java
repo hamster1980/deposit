@@ -1,23 +1,43 @@
 package com.hamster.model;
 
+import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 
+@Entity
+@Table(name="OPERATION_PARTICIPANT")
 public class OperationParticipant implements Persistable, Stateable, Typeable {
 
 	private static final long serialVersionUID = 1L;
 
-	private final Key key;
-	private Key personKey;
-	private Key operationKey;
-	private State state;
-	private OperationRole role;
+	@EmbeddedId
+	private final StringKey key;
+	@ManyToOne
+	@JoinColumn(name="PERSON_ID")
+	private Person person;
+	@ManyToOne
+	@JoinColumn(name="OPERATION_ID")
+	private Operation operation;
+	@Enumerated(EnumType.STRING)
+	@Column(name="STATE_ID")
+	private OperationParticipantStateEnum state;
+	@Enumerated(EnumType.STRING)
+	@Column(name="ROLE_ID")
+	private OperationRoleEnum role;
 
 	public OperationParticipant() {
-		this(EmptyKey.DEFAULT);
+		this(StringKey.EMPTY_KEY);
 	}
 	
-	public OperationParticipant(Key key) {
+	public OperationParticipant(StringKey key) {
 		this.key = Preconditions.checkNotNull(key);
 	}
 
@@ -26,20 +46,20 @@ public class OperationParticipant implements Persistable, Stateable, Typeable {
 		return key;
 	}
 
-	public Key getPersonKey() {
-		return personKey;
+	public Person getPerson() {
+		return person;
 	}
 
-	public void setPersonKey(Key personKey) {
-		this.personKey = personKey;
+	public void setPerson(Person person) {
+		this.person = person;
 	}
 
-	public Key getOperationKey() {
-		return operationKey;
+	public Operation getOperation() {
+		return operation;
 	}
 
-	public void setOperationKey(Key operationKey) {
-		this.operationKey = operationKey;
+	public void setOperation(Operation operation) {
+		this.operation = operation;
 	}
 
 	@Override
@@ -47,7 +67,7 @@ public class OperationParticipant implements Persistable, Stateable, Typeable {
 		return state;
 	}
 
-	public void setState(State state) {
+	public void setState(OperationParticipantStateEnum state) {
 		this.state = state;
 	}
 
@@ -55,7 +75,7 @@ public class OperationParticipant implements Persistable, Stateable, Typeable {
 		return role;
 	}
 
-	public void setRole(OperationRole role) {
+	public void setRole(OperationRoleEnum role) {
 		this.role = role;
 	}
 
@@ -79,8 +99,8 @@ public class OperationParticipant implements Persistable, Stateable, Typeable {
     public String toString() {
         return Objects.toStringHelper(this)
         			.add("key", key)
-        			.add("personKey", personKey)
-        			.add("operationKey", operationKey)
+        			.add("person", person)
+        			.add("operation", operation)
         			.add("role", role)
         			.add("state", state)
         				.toString();

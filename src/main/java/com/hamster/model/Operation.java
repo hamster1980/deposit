@@ -2,24 +2,41 @@ package com.hamster.model;
 
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 
+@Entity
+@Table(name="OPERATION")
 public class Operation implements Persistable, Stateable, Typeable {
 
 	private static final long serialVersionUID = 1L;
 	
-	private final Key key;
+	@EmbeddedId
+	private final StringKey key;
+	@Transient
 	private Date creationDate;
+	@Transient
 	private PaymentCondition paymentCondition;
-	private State state;
-	private Type type;
+	@Enumerated(EnumType.STRING)
+	@Column(name="STATE_ID")
+	private OperationStateEnum state;
+	@Enumerated(EnumType.STRING)
+	@Column(name="TYPE_ID")
+	private OperationTypeEnum type;
 
 	public Operation() {
-		this(EmptyKey.DEFAULT);
+		this(StringKey.EMPTY_KEY);
 	}
 
-	public Operation(Key key) {
+	public Operation(StringKey key) {
 		this.key = Preconditions.checkNotNull(key);
 	}
 
@@ -49,7 +66,7 @@ public class Operation implements Persistable, Stateable, Typeable {
 		return state;
 	}
 
-	public void setState(State state) {
+	public void setState(OperationStateEnum state) {
 		this.state = state;
 	}
 
@@ -58,7 +75,7 @@ public class Operation implements Persistable, Stateable, Typeable {
 		return type;
 	}
 
-	public void setType(Type type) {
+	public void setType(OperationTypeEnum type) {
 		this.type = type;
 	}
 

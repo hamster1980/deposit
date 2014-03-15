@@ -23,7 +23,7 @@ public class OperationServiceImpl implements OperationService {
 		Operation operation = new Operation();
 		operation.setPaymentCondition(paymentCondition);
 		operation = repository.save(operation);
-		author.setOperationKey(operation.getKey());
+		author.setOperation(operation);
 		participantService.addParticipant(author);
 		return operation;
 	}

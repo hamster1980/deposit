@@ -3,6 +3,7 @@ package com.hamster.service;
 import javax.persistence.PersistenceContext;
 import javax.persistence.EntityManager;
 
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
@@ -20,4 +21,9 @@ public class AbstractServiceTest extends AbstractTransactionalJUnit4SpringContex
 
 	@PersistenceContext
 	protected EntityManager emf;
+	
+	@Test
+	public void testNothing() {
+		
+	}
 }
