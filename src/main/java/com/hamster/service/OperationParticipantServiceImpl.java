@@ -20,7 +20,7 @@ public class OperationParticipantServiceImpl implements OperationParticipantServ
 	private OperationParticipantRepository repository;
 
 	@Override
-	public OperationParticipant addParticipant(Integer operation, Integer person, OperationRole role) {
+	public OperationParticipant addParticipant(long operation, long person, OperationRole role) {
 		OperationParticipant participant = new OperationParticipant();
 		participant.setOperation(new Operation(operation));
 		participant.setPerson(new Person(person));

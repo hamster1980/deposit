@@ -14,14 +14,14 @@ import com.google.common.base.Objects;
 
 @Entity
 @Table(name="OPERATION_PARTICIPANT")
-public class OperationParticipant implements Stateable<Integer>, Typeable<Integer> {
+public class OperationParticipant implements Stateable<Long>, Typeable<Long> {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@Column(name="ID")
 	@GeneratedValue
-	private final Integer key;
+	private long key;
 	@ManyToOne
 	@JoinColumn(name="PERSON_ID")
 	private Person person;
@@ -36,21 +36,21 @@ public class OperationParticipant implements Stateable<Integer>, Typeable<Intege
 	private OperationRoleEnum role;
 
 	public OperationParticipant() {
-		this(null);
+		this(0);
 	}
 	
-	public OperationParticipant(Integer key) {
+	public OperationParticipant(long key) {
 		this.key = key;
 	}
 
 	@Override
-	public Integer getId() {
+	public Long getId() {
 		return key;
 	}
 
 	@Override
 	public boolean isNew() {
-		return key == null;
+		return key == 0;
 	}
 
 	public Person getPerson() {

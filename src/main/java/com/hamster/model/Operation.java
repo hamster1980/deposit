@@ -16,14 +16,14 @@ import com.google.common.base.Objects;
 
 @Entity
 @Table(name="OPERATION")
-public class Operation implements Stateable<Integer>, Typeable<Integer> {
+public class Operation implements Stateable<Long>, Typeable<Long> {
 
 	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@Column(name="ID")
 	@GeneratedValue
-	private Integer key;
+	private long key;
 	@Transient
 	private Date creationDate;
 	@Embedded
@@ -36,21 +36,21 @@ public class Operation implements Stateable<Integer>, Typeable<Integer> {
 	private OperationTypeEnum type;
 
 	public Operation() {
-		this(null);
+		this(0);
 	}
 
-	public Operation(Integer key) {
+	public Operation(long key) {
 		this.key = key;
 	}
 
 	@Override
-	public Integer getId() {
+	public Long getId() {
 		return key;
 	}
 
 	@Override
 	public boolean isNew() {
-		return key == null;
+		return key == 0;
 	}
 
 

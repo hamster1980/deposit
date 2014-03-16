@@ -12,13 +12,13 @@ import com.google.common.base.Objects;
 
 @Entity
 @Table(name="PERSON")
-public class Person implements Persistable<Integer> {
+public class Person implements Persistable<Long> {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@Column(name="ID")
-	private final Integer key;
+	private long key;
 	@Column(name="FIRST_NAME")
 	private String firstName;
 	@Column(name="SECOND_NAME")
@@ -29,21 +29,21 @@ public class Person implements Persistable<Integer> {
 	private Type mainContactType;
 	
 	public Person() {
-		this(null);
+		this(0);
 	}
 	
-	public Person(Integer key) {
+	public Person(long key) {
 		this.key = key;
 	}
 
 	@Override
-	public Integer getId() {
+	public Long getId() {
 		return key;
 	}
 
 	@Override
 	public boolean isNew() {
-		return key == null;
+		return key == 0;
 	}
 
 	public String getFirstName() {

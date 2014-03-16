@@ -7,14 +7,14 @@ import com.hamster.model.Type;
 
 public interface OperationService {
 
-	Operation getOperation(Integer key);
+	Operation getOperation(long key);
 	
 	Operation start(StartParams params);
 	
 	
 	interface StartParams{
 		Type getType();
-		Integer getAuthor();
+		long getAuthor();
 		OperationRole getAuthorRole();
 		PaymentCondition getPaymentCondition();
 	}

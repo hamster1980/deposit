@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.hamster.model.Operation;
 
 @Repository
-public interface OperationRepository extends JpaRepository<Operation, Integer>{
+public interface OperationRepository extends JpaRepository<Operation, Long>{
 
 }

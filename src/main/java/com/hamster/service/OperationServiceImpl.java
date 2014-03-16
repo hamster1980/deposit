@@ -20,7 +20,7 @@ public class OperationServiceImpl implements OperationService {
 	private OperationParticipantService participantService; 
 
 	@Override
-	public Operation getOperation(Integer key) {
+	public Operation getOperation(long key) {
 		return repository.findOne(key);
 	}
 	

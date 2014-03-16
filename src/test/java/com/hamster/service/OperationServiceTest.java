@@ -5,7 +5,6 @@ import static org.junit.Assert.*;
 import java.util.Currency;
 import java.util.List;
 
-import org.h2.util.New;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -43,7 +42,7 @@ public class OperationServiceTest extends AbstractServiceTest{
 										return OperationTypeEnum.FLAT_RENTING;
 									}
 									@Override
-									public Integer getAuthor() {
+									public long getAuthor() {
 										return 1;
 									}
 									@Override
@@ -63,7 +62,7 @@ public class OperationServiceTest extends AbstractServiceTest{
 		List<OperationParticipant> participants = emf.createNativeQuery("select * from OPERATION_PARTICIPANT where operation_id = " + operation.getId(), OperationParticipant.class).getResultList();
 		assertTrue(participants != null && participants.size() == 1);
 		OperationParticipant author = Iterables.getFirst(participants, null);
-		assertTrue(author.getPerson().getId().equals(Integer.decode("1")));
+		assertTrue(author.getPerson().getId() == 1L);
 		//todo: check state of participant and operation
 	}
 }
