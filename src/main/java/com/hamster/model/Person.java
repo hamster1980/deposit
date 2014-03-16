@@ -1,22 +1,24 @@
 package com.hamster.model;
 
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.springframework.data.domain.Persistable;
+
 import com.google.common.base.Objects;
-import com.google.common.base.Preconditions;
 
 @Entity
 @Table(name="PERSON")
-public class Person implements Persistable {
+public class Person implements Persistable<Integer> {
 
 	private static final long serialVersionUID = 1L;
 
-	@EmbeddedId
-	private final StringKey key;
+	@Id
+	@Column(name="ID")
+	private final Integer key;
 	@Column(name="FIRST_NAME")
 	private String firstName;
 	@Column(name="SECOND_NAME")
@@ -27,16 +29,21 @@ public class Person implements Persistable {
 	private Type mainContactType;
 	
 	public Person() {
-		this(StringKey.EMPTY_KEY);
+		this(null);
 	}
 	
-	public Person(StringKey key) {
-		this.key = Preconditions.checkNotNull(key);
+	public Person(Integer key) {
+		this.key = key;
 	}
 
 	@Override
-	public Key getKey() {
+	public Integer getId() {
 		return key;
+	}
+
+	@Override
+	public boolean isNew() {
+		return key == null;
 	}
 
 	public String getFirstName() {
@@ -73,13 +80,13 @@ public class Person implements Persistable {
 
 	@Override
     public int hashCode() {
-        return key.hashCode();
+        return Objects.hashCode(key);
     }
 
     @Override
     public boolean equals(Object obj) {
         return obj instanceof Person
-                && ((Person)obj).key.equals(key);
+                && Objects.equal(((Person)obj).key, key);
     }
 
     @Override

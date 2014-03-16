@@ -1,25 +1,27 @@
 package com.hamster.model;
 
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.google.common.base.Objects;
-import com.google.common.base.Preconditions;
 
 @Entity
 @Table(name="OPERATION_PARTICIPANT")
-public class OperationParticipant implements Persistable, Stateable, Typeable {
+public class OperationParticipant implements Stateable<Integer>, Typeable<Integer> {
 
 	private static final long serialVersionUID = 1L;
 
-	@EmbeddedId
-	private final StringKey key;
+	@Id
+	@Column(name="ID")
+	@GeneratedValue
+	private final Integer key;
 	@ManyToOne
 	@JoinColumn(name="PERSON_ID")
 	private Person person;
@@ -34,16 +36,21 @@ public class OperationParticipant implements Persistable, Stateable, Typeable {
 	private OperationRoleEnum role;
 
 	public OperationParticipant() {
-		this(StringKey.EMPTY_KEY);
+		this(null);
 	}
 	
-	public OperationParticipant(StringKey key) {
-		this.key = Preconditions.checkNotNull(key);
+	public OperationParticipant(Integer key) {
+		this.key = key;
 	}
 
 	@Override
-	public Key getKey() {
+	public Integer getId() {
 		return key;
+	}
+
+	@Override
+	public boolean isNew() {
+		return key == null;
 	}
 
 	public Person getPerson() {
@@ -86,13 +93,13 @@ public class OperationParticipant implements Persistable, Stateable, Typeable {
 
 	@Override
     public int hashCode() {
-        return key.hashCode();
+        return Objects.hashCode(key);
     }
 
     @Override
     public boolean equals(Object obj) {
         return obj instanceof OperationParticipant
-                && ((OperationParticipant)obj).key.equals(key);
+                && Objects.equal(((OperationParticipant)obj).key, key);
     }
 
     @Override

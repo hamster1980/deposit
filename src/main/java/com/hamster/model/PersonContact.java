@@ -1,37 +1,41 @@
 package com.hamster.model;
 
 import com.google.common.base.Objects;
-import com.google.common.base.Preconditions;
 
-public class PersonContact implements Persistable, Stateable, Typeable {
+public class PersonContact implements Stateable<Integer>, Typeable<Integer> {
 
 	private static final long serialVersionUID = 1L;
 
-	private final Key key;
-	private Key personKey;
+	private Integer key;
+	private Integer personKey;
 	private Type type;
 	private State state;
 	private String value;
 	private boolean main;
 	
 	public PersonContact() {
-		this(EmptyKey.DEFAULT);
+		this(null);
 	}
 	
-	public PersonContact(Key key) {
-		this.key = Preconditions.checkNotNull(key);
+	public PersonContact(Integer key) {
+		this.key = key;
 	}
 
 	@Override
-	public Key getKey() {
+	public Integer getId() {
 		return key;
 	}
 
-	public Key getPersonKey() {
+	@Override
+	public boolean isNew() {
+		return key == null;
+	}
+
+	public Integer getPersonKey() {
 		return personKey;
 	}
 
-	public void setPersonKey(Key personKey) {
+	public void setPersonKey(Integer personKey) {
 		this.personKey = personKey;
 	}
 
@@ -71,13 +75,13 @@ public class PersonContact implements Persistable, Stateable, Typeable {
 
 	@Override
     public int hashCode() {
-        return key.hashCode();
+        return Objects.hashCode(key);
     }
 
     @Override
     public boolean equals(Object obj) {
         return obj instanceof PersonContact
-                && ((PersonContact)obj).key.equals(key);
+                && Objects.equal(((PersonContact)obj).key, key);
     }
 
     @Override

@@ -14,7 +14,7 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
 @Configuration
 @ImportResource({"classpath:spring/datasource.xml", "classpath:spring/tx-jpa.xml"})
-@ComponentScan(basePackages={"com.hamster.service", "com.hamster.operation"})
+@ComponentScan(basePackages={"com.hamster.service"})
 @Profile("test")
 public class TestConfig {
 
@@ -31,7 +31,7 @@ public class TestConfig {
 		return new DataSourceDatabaseTester(dataSource());
 	}
 	
-	@Bean(name="xlsDataFileoader")
+	@Bean(name="xlsDataFileLoader")
 	public XlsDataFileLoader xlsDataFileLoader() {
 		return new XlsDataFileLoader();
 	}

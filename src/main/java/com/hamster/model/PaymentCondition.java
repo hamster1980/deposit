@@ -1,34 +1,48 @@
 package com.hamster.model;
 
-import com.google.common.base.Objects;
-import com.google.common.base.Preconditions;
+import javax.persistence.Embeddable;
+import javax.persistence.Embedded;
+import javax.persistence.Transient;
 
-public class PaymentCondition implements Persistable {
+import org.springframework.data.domain.Persistable;
+
+import com.google.common.base.Objects;
+
+@Embeddable
+public class PaymentCondition implements Persistable<Integer> {
 
 	private static final long serialVersionUID = 1L;
 
-	private final Key key;
-	private Key operationKey;
+	@Transient
+	private final Integer key;
+	@Transient
+	private Integer operationKey;
+	@Embedded
 	private Amount fullAmount;
 	
 	public PaymentCondition() {
-		this(EmptyKey.DEFAULT);
+		this(null);
 	}
 	
-	public PaymentCondition(Key key) {
-		this.key = Preconditions.checkNotNull(key);
+	public PaymentCondition(Integer key) {
+		this.key = key;
 	}
 
 	@Override
-	public Key getKey() {
+	public Integer getId() {
 		return key;
 	}
 
-	public Key getOperationKey() {
+	@Override
+	public boolean isNew() {
+		return key == null;
+	}
+
+	public Integer getOperationKey() {
 		return operationKey;
 	}
 
-	public void setOperationKey(Key operationKey) {
+	public void setOperationKey(Integer operationKey) {
 		this.operationKey = operationKey;
 	}
 
@@ -42,13 +56,13 @@ public class PaymentCondition implements Persistable {
 
 	@Override
     public int hashCode() {
-        return key.hashCode();
+        return Objects.hashCode(key);
     }
 
     @Override
     public boolean equals(Object obj) {
         return obj instanceof PaymentCondition
-                && ((PaymentCondition)obj).key.equals(key);
+                && Objects.equal(((PaymentCondition)obj).key, key);
     }
 
     @Override

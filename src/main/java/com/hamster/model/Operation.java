@@ -3,27 +3,30 @@ package com.hamster.model;
 import java.util.Date;
 
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import com.google.common.base.Objects;
-import com.google.common.base.Preconditions;
 
 @Entity
 @Table(name="OPERATION")
-public class Operation implements Persistable, Stateable, Typeable {
+public class Operation implements Stateable<Integer>, Typeable<Integer> {
 
 	private static final long serialVersionUID = 1L;
 	
-	@EmbeddedId
-	private final StringKey key;
+	@Id
+	@Column(name="ID")
+	@GeneratedValue
+	private Integer key;
 	@Transient
 	private Date creationDate;
-	@Transient
+	@Embedded
 	private PaymentCondition paymentCondition;
 	@Enumerated(EnumType.STRING)
 	@Column(name="STATE_ID")
@@ -33,17 +36,23 @@ public class Operation implements Persistable, Stateable, Typeable {
 	private OperationTypeEnum type;
 
 	public Operation() {
-		this(StringKey.EMPTY_KEY);
+		this(null);
 	}
 
-	public Operation(StringKey key) {
-		this.key = Preconditions.checkNotNull(key);
+	public Operation(Integer key) {
+		this.key = key;
 	}
 
 	@Override
-	public Key getKey() {
+	public Integer getId() {
 		return key;
 	}
+
+	@Override
+	public boolean isNew() {
+		return key == null;
+	}
+
 
 	public Date getCreationDate() {
 		return creationDate;
@@ -81,13 +90,13 @@ public class Operation implements Persistable, Stateable, Typeable {
 
 	@Override
     public int hashCode() {
-        return key.hashCode();
+        return Objects.hashCode(key);
     }
 
     @Override
     public boolean equals(Object obj) {
         return obj instanceof Operation
-                && ((Operation)obj).key.equals(key);
+                && Objects.equal(((Operation)obj).key, key);
     }
 
     @Override
