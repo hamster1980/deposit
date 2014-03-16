@@ -10,7 +10,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import com.google.common.base.Objects;
 
@@ -24,7 +25,8 @@ public class Operation implements Stateable<Long>, Typeable<Long> {
 	@Column(name="ID")
 	@GeneratedValue
 	private final long key;
-	@Transient
+	@Temporal(value = TemporalType.DATE)
+	@Column(name="CREATION_DATE")
 	private Date creationDate;
 	@Embedded
 	private PaymentCondition paymentCondition;

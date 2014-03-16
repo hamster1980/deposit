@@ -2,6 +2,8 @@ package com.hamster.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -25,8 +27,9 @@ public class Person implements Persistable<Long> {
 	private String secondName;
 	@Column(name="LAST_NAME")
 	private String lastName;
-	@Transient
-	private Type mainContactType;
+	@Enumerated(EnumType.STRING)
+	@Column(name="CONTACT_TYPE_ID")
+	private PersonContactTypeEnum mainContactType;
 	
 	public Person() {
 		this(0);
@@ -74,7 +77,7 @@ public class Person implements Persistable<Long> {
 		return mainContactType;
 	}
 
-	public void setMainContactType(Type mainContactType) {
+	public void setMainContactType(PersonContactTypeEnum mainContactType) {
 		this.mainContactType = mainContactType;
 	}
 
