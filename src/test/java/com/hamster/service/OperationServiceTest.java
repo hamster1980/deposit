@@ -20,6 +20,7 @@ import com.hamster.model.Type;
 import com.hamster.service.OperationService.StartParams;
 import com.hamster.test.annotation.DataSets;
 
+@DataSets(setUpDataSet="/com/hamster/service/TestData.xls")
 public class OperationServiceTest extends AbstractServiceTest{
 /*
  * start operation
@@ -30,7 +31,15 @@ public class OperationServiceTest extends AbstractServiceTest{
 	@Autowired
 	private OperationService service;
 
-	@DataSets(setUpDataSet="/com/hamster/service/TestData.xls")
+	@Test
+	@DataSets(setUpDataSet="/com/hamster/service/OperationServiceGetOperation.xls")
+	public void testGetOperation() {
+		Operation operation = service.getOperation(1);
+		assertNotNull(operation);
+		operation = service.getOperation(2);
+		assertNull(operation);
+	}
+	
 	@Test
 	public void testStart() {
 		final PaymentCondition condition = new PaymentCondition();
