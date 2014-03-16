@@ -23,7 +23,7 @@ public class Operation implements Stateable<Long>, Typeable<Long> {
 	@Id
 	@Column(name="ID")
 	@GeneratedValue
-	private long key;
+	private final long key;
 	@Transient
 	private Date creationDate;
 	@Embedded

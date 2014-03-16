@@ -21,7 +21,7 @@ public class OperationParticipant implements Stateable<Long>, Typeable<Long> {
 	@Id
 	@Column(name="ID")
 	@GeneratedValue
-	private long key;
+	private final long key;
 	@ManyToOne
 	@JoinColumn(name="PERSON_ID")
 	private Person person;

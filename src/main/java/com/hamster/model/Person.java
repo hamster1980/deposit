@@ -18,7 +18,7 @@ public class Person implements Persistable<Long> {
 
 	@Id
 	@Column(name="ID")
-	private long key;
+	private final long key;
 	@Column(name="FIRST_NAME")
 	private String firstName;
 	@Column(name="SECOND_NAME")
