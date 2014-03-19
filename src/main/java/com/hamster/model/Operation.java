@@ -1,7 +1,5 @@
 package com.hamster.model;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -10,8 +8,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+
+import org.joda.time.DateTime;
 
 import com.google.common.base.Objects;
 
@@ -25,9 +23,9 @@ public class Operation implements Stateable<Long>, Typeable<Long> {
 	@Column(name="ID")
 	@GeneratedValue
 	private final long key;
-	@Temporal(value = TemporalType.DATE)
 	@Column(name="CREATION_DATE")
-	private Date creationDate;
+	@org.hibernate.annotations.Type(type="org.joda.time.contrib.hibernate.PersistentDateTime")
+	private DateTime creationDate;
 	@Embedded
 	private PaymentCondition paymentCondition;
 	@Enumerated(EnumType.STRING)
@@ -56,11 +54,11 @@ public class Operation implements Stateable<Long>, Typeable<Long> {
 	}
 
 
-	public Date getCreationDate() {
+	public DateTime getCreationDate() {
 		return creationDate;
 	}
 
-	public void setCreationDate(Date creationDate) {
+	public void setCreationDate(DateTime creationDate) {
 		this.creationDate = creationDate;
 	}
 

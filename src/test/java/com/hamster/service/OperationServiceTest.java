@@ -14,8 +14,10 @@ import com.hamster.model.Operation;
 import com.hamster.model.OperationParticipant;
 import com.hamster.model.OperationRole;
 import com.hamster.model.OperationRoleEnum;
+import com.hamster.model.OperationStateEnum;
 import com.hamster.model.OperationTypeEnum;
 import com.hamster.model.PaymentCondition;
+import com.hamster.model.State;
 import com.hamster.model.Type;
 import com.hamster.service.OperationService.StartParams;
 import com.hamster.test.annotation.DataSets;
@@ -42,13 +44,14 @@ public class OperationServiceTest extends AbstractServiceTest{
 	
 	@Test
 	public void testStart() {
-		final PaymentCondition condition = new PaymentCondition();
-		condition.setFullAmount(Amount.create("100.56", Currency.getInstance("RUB")));
+		final PaymentCondition condition = new PaymentCondition()
+											.setFullAmount(Amount.create("100.56", Currency.getInstance("RUB")));
+		final Type type = OperationTypeEnum.FLAT_RENTING;
 		Operation operation = service.start(
 								new StartParams() {
 									@Override
 									public Type getType() {
-										return OperationTypeEnum.FLAT_RENTING;
+										return type;
 									}
 									@Override
 									public long getAuthor() {
@@ -65,13 +68,22 @@ public class OperationServiceTest extends AbstractServiceTest{
 								}
 		);
 		emf.flush();
-		assertNotNull(operation);
-		operation = emf.find(Operation.class, operation.getId());
-		assertNotNull(operation);
+		checkOperation(operation, condition.getFullAmount(), OperationStateEnum.STARTED, type);
+		checkOperation(emf.find(Operation.class, operation.getId()), condition.getFullAmount(), OperationStateEnum.STARTED, type);
 		List<OperationParticipant> participants = emf.createNativeQuery("select * from OPERATION_PARTICIPANT where operation_id = " + operation.getId(), OperationParticipant.class).getResultList();
 		assertTrue(participants != null && participants.size() == 1);
 		OperationParticipant author = Iterables.getFirst(participants, null);
+		assertNotNull(author.getPerson());
 		assertTrue(author.getPerson().getId() == 1L);
-		//todo: check state of participant and operation
+	}
+	
+	private void checkOperation(Operation operation, Amount expectedAmount, State expectedState, Type expectedType) {
+		assertNotNull(operation);
+		assertNotNull(operation.getId());
+		assertEquals(expectedState, operation.getState());
+		assertEquals(expectedType, operation.getType());
+		assertNotNull(operation.getCreationDate());
+		assertNotNull(operation.getPaymentCondition());
+		assertEquals(expectedAmount, operation.getPaymentCondition().getFullAmount());
 	}
 }

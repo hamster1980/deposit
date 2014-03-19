@@ -1,5 +1,6 @@
 package com.hamster.service;
 
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,8 +30,9 @@ public class OperationServiceImpl implements OperationService {
 		Preconditions.checkNotNull(params);
 		Operation operation = new Operation();
 		operation.setPaymentCondition(params.getPaymentCondition());
-		operation.setState(OperationStateEnum.INITED);
+		operation.setState(OperationStateEnum.STARTED);
 		operation.setType((OperationTypeEnum) params.getType());
+		operation.setCreationDate(DateTime.now());
 		operation = repository.saveAndFlush(operation);
 		participantService.addParticipant(operation.getId(), params.getAuthor(), params.getAuthorRole());
 		return operation;

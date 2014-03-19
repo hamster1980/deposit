@@ -3,7 +3,9 @@ package com.hamster.model;
 import java.io.Serializable;
 
 public enum OperationStateEnum implements State {
-	INITED,
+	STARTED,
+	WORKING,
+	FINISHED,
 	;
 
 	@Override

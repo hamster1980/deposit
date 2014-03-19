@@ -50,8 +50,9 @@ public class PaymentCondition implements Persistable<Integer> {
 		return fullAmount;
 	}
 
-	public void setFullAmount(Amount fullAmount) {
+	public PaymentCondition setFullAmount(Amount fullAmount) {
 		this.fullAmount = fullAmount;
+		return this;
 	}
 
 	@Override
