@@ -6,9 +6,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.base.Preconditions;
+import com.hamster.model.Amount;
 import com.hamster.model.Operation;
 import com.hamster.model.OperationStateEnum;
 import com.hamster.model.OperationTypeEnum;
+import com.hamster.operation.StartParams;
 import com.hamster.repository.OperationRepository;
 
 @Service("operationService")
@@ -28,6 +30,9 @@ public class OperationServiceImpl implements OperationService {
 	@Override
 	public Operation start(StartParams params) {
 		Preconditions.checkNotNull(params);
+		Preconditions.checkNotNull(params.getPaymentCondition());
+		Amount amount = params.getPaymentCondition().getFullAmount();
+		Preconditions.checkState(!amount.isEmpty() && amount.isSign());
 		Operation operation = new Operation();
 		operation.setPaymentCondition(params.getPaymentCondition());
 		operation.setState(OperationStateEnum.STARTED);
