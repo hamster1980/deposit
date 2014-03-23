@@ -1,7 +1,7 @@
 package com.hamster.service;
 
-import javax.persistence.PersistenceContext;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,7 +17,7 @@ import com.hamster.test.annotation.ServiceTestExecutionListener;
 @ContextConfiguration(classes={TestConfig.class})
 @TestExecutionListeners({ServiceTestExecutionListener.class})
 @ActiveProfiles("test")
-public class AbstractServiceTest extends AbstractTransactionalJUnit4SpringContextTests{
+public class AServiceTest extends AbstractTransactionalJUnit4SpringContextTests {
 
 	@PersistenceContext
 	protected EntityManager emf;
@@ -26,4 +26,5 @@ public class AbstractServiceTest extends AbstractTransactionalJUnit4SpringContex
 	public void testNothing() {
 		
 	}
+
 }

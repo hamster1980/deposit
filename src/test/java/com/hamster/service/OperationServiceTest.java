@@ -11,8 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
+import com.hamster.error.ErrorCodeException;
 import com.hamster.model.Amount;
+import com.hamster.model.ErrorCodeType;
 import com.hamster.model.Operation;
+import com.hamster.model.OperationErrorCodeTypeEnum;
 import com.hamster.model.OperationParticipant;
 import com.hamster.model.OperationStateEnum;
 import com.hamster.model.State;
@@ -21,7 +24,7 @@ import com.hamster.operation.StartParamsBuilder;
 import com.hamster.test.annotation.DataSets;
 
 @DataSets(setUpDataSet="/com/hamster/service/TestData.xls")
-public class OperationServiceTest extends AbstractServiceTest{
+public class OperationServiceTest extends AServiceTest{
 
 	@Autowired
 	private OperationService service;
@@ -51,6 +54,7 @@ public class OperationServiceTest extends AbstractServiceTest{
 	
 	@Test
 	public void testStartForUnexistedPerson() {
+		//todo: check that there no any new records in database
 		createOperationWithException(
 				StartParamsBuilder.create()
 					.author(2)
@@ -61,9 +65,9 @@ public class OperationServiceTest extends AbstractServiceTest{
 
 	@Test
 	public void testStartForIncorrectAmount() {
-		for(Entry<Amount, Object> entry : ImmutableMap.of(
-												Amount.create(Currency.getInstance("RUB")), new Object()
-												, Amount.create("-1", Currency.getInstance("RUB")), new Object()
+		for(Entry<Amount, OperationErrorCodeTypeEnum> entry : ImmutableMap.of(
+												Amount.create(Currency.getInstance("RUB")), OperationErrorCodeTypeEnum.OPERATION_AMOUNT_IS_LESS_THEN_MIN
+												, Amount.create("-1", Currency.getInstance("RUB")), OperationErrorCodeTypeEnum.OPERATION_AMOUNT_IS_LESS_THEN_MIN
 												//todo: max value
 										  	).entrySet()) {
 			createOperationWithException(
@@ -75,12 +79,14 @@ public class OperationServiceTest extends AbstractServiceTest{
 		}
 	}
 	
-	private void createOperationWithException(StartParams params, Object errorType) {
+	private void createOperationWithException(StartParams params, ErrorCodeType errorType) {
 		try {
 			service.start(params);
 			assertTrue(false);
 		} catch(Exception e) {
-			//todo: check type of exception
+			if(errorType != null) {
+				assertTrue(e instanceof ErrorCodeException && ((ErrorCodeException)e).getError().getType().equals(errorType.toString()));
+			}
 		}
 	}
 	

@@ -10,11 +10,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.springframework.data.domain.Persistable;
+
 import com.google.common.base.Objects;
+import com.hamster.Stateable;
+import com.hamster.Typeable;
 
 @Entity
 @Table(name="OPERATION_PARTICIPANT")
-public class OperationParticipant implements Stateable<Long>, Typeable<Long> {
+public class OperationParticipant implements Stateable, Typeable, Persistable<Long> {
 
 	private static final long serialVersionUID = 1L;
 

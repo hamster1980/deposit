@@ -9,33 +9,33 @@ import org.springframework.data.domain.Persistable;
 import com.google.common.base.Objects;
 
 @Embeddable
-public class PaymentCondition implements Persistable<Integer> {
+public class PaymentCondition implements Persistable<Long> {
 
 	private static final long serialVersionUID = 1L;
 
 	@Transient
-	private final Integer key;
+	private final long key;
 	@Transient
 	private Integer operationKey;
 	@Embedded
 	private Amount fullAmount;
 	
 	public PaymentCondition() {
-		this(null);
+		this(0);
 	}
 	
-	public PaymentCondition(Integer key) {
+	public PaymentCondition(long key) {
 		this.key = key;
 	}
 
 	@Override
-	public Integer getId() {
+	public Long getId() {
 		return key;
 	}
 
 	@Override
 	public boolean isNew() {
-		return key == null;
+		return key == 0;
 	}
 
 	public Integer getOperationKey() {

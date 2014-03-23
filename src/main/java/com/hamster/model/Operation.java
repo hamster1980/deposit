@@ -10,12 +10,15 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.joda.time.DateTime;
+import org.springframework.data.domain.Persistable;
 
 import com.google.common.base.Objects;
+import com.hamster.Stateable;
+import com.hamster.Typeable;
 
 @Entity
 @Table(name="OPERATION")
-public class Operation implements Stateable<Long>, Typeable<Long> {
+public class Operation implements Stateable, Typeable, Persistable<Long> {
 
 	private static final long serialVersionUID = 1L;
 	

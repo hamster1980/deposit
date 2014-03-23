@@ -21,7 +21,9 @@ public class TestConfig {
 	@Bean
 	public DataSource dataSource() {
 		return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2)
+					.addScript("classpath:db/common-schema.sql")
 					.addScript("classpath:db/schema.sql")
+					.addScript("classpath:db/operation-data.sql")
 					.addScript("classpath:db/data.sql")
 						.build();
 	}

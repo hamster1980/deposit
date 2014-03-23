@@ -1,12 +1,16 @@
 package com.hamster.model;
 
-import com.google.common.base.Objects;
+import org.springframework.data.domain.Persistable;
 
-public class PersonContact implements Stateable<Integer>, Typeable<Integer> {
+import com.google.common.base.Objects;
+import com.hamster.Stateable;
+import com.hamster.Typeable;
+
+public class PersonContact implements Stateable, Typeable, Persistable<Long> {
 
 	private static final long serialVersionUID = 1L;
 
-	private Integer key;
+	private final long key;
 	private Integer personKey;
 	private Type type;
 	private State state;
@@ -14,21 +18,21 @@ public class PersonContact implements Stateable<Integer>, Typeable<Integer> {
 	private boolean main;
 	
 	public PersonContact() {
-		this(null);
+		this(0);
 	}
 	
-	public PersonContact(Integer key) {
+	public PersonContact(long key) {
 		this.key = key;
 	}
 
 	@Override
-	public Integer getId() {
+	public Long getId() {
 		return key;
 	}
 
 	@Override
 	public boolean isNew() {
-		return key == null;
+		return key == 0;
 	}
 
 	public Integer getPersonKey() {
