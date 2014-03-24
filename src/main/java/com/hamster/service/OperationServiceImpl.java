@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.base.Preconditions;
-import com.hamster.error.ErrorCodeException;
+import com.hamster.error.Utils;
 import com.hamster.model.Amount;
 import com.hamster.model.Operation;
 import com.hamster.model.OperationErrorCodeTypeEnum;
@@ -37,7 +37,7 @@ public class OperationServiceImpl implements OperationService {
 		Preconditions.checkNotNull(params.getPaymentCondition());
 		Amount amount = params.getPaymentCondition().getFullAmount();
 		if(amount.isEmpty() || !amount.isSign()) {
-			throw new ErrorCodeException(errorCodeService.getByType(OperationErrorCodeTypeEnum.OPERATION_AMOUNT_IS_LESS_THEN_MIN));
+			Utils.throwErrorCodeException(errorCodeService, OperationErrorCodeTypeEnum.OPERATION_AMOUNT_IS_LESS_THEN_MIN);
 		}
 		Operation operation = new Operation();
 		operation.setPaymentCondition(params.getPaymentCondition());

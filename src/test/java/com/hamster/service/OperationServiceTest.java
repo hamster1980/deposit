@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
@@ -21,8 +22,8 @@ import com.hamster.model.OperationStateEnum;
 import com.hamster.model.State;
 import com.hamster.operation.StartParams;
 import com.hamster.operation.StartParamsBuilder;
-import com.hamster.test.annotation.DataSets;
 
+@ContextConfiguration(classes={TestConfig.class})
 @DataSets(setUpDataSet="/com/hamster/service/TestData.xls")
 public class OperationServiceTest extends AServiceTest{
 

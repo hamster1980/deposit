@@ -1,40 +1,20 @@
 package com.hamster.service;
 
-import javax.sql.DataSource;
+import java.util.Collection;
 
-import org.dbunit.DataSourceDatabaseTester;
-import org.dbunit.util.fileloader.XlsDataFileLoader;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.ImportResource;
-import org.springframework.context.annotation.Profile;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
+
+import com.google.common.collect.ImmutableSet;
 
 @Configuration
-@ImportResource({"classpath:spring/datasource.xml", "classpath:spring/tx-jpa.xml"})
-@ComponentScan(basePackages={"com.hamster.service"})
-@Profile("test")
-public class TestConfig {
+public class TestConfig extends AServiceTestConfig {
 
-	@Bean
-	public DataSource dataSource() {
-		return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2)
-					.addScript("classpath:db/common-schema.sql")
-					.addScript("classpath:db/schema.sql")
-					.addScript("classpath:db/operation-data.sql")
-					.addScript("classpath:db/data.sql")
-						.build();
-	}
-	
-	@Bean(name="databaseTester")
-	public DataSourceDatabaseTester dataSourceDatabaseTester() {
-		return new DataSourceDatabaseTester(dataSource());
-	}
-	
-	@Bean(name="xlsDataFileLoader")
-	public XlsDataFileLoader xlsDataFileLoader() {
-		return new XlsDataFileLoader();
+	@Override
+	protected Collection<String> getScripts() {
+		return ImmutableSet.of("classpath:db/common-schema.sql"
+								, "classpath:db/schema.sql"
+								, "classpath:db/operation-data.sql"
+								, "classpath:db/data.sql"
+		);
 	}
 }
