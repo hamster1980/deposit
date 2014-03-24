@@ -37,6 +37,7 @@ public class OperationServiceTest extends AServiceTest{
 		assertNotNull(operation);
 		operation = service.getOperation(2);
 		assertNull(operation);
+		//todo: check mapping of existing record
 	}
 	
 	@Test
