@@ -27,7 +27,7 @@ public class Operation implements Stateable, Typeable, Persistable<Long> {
 	@GeneratedValue
 	private final long key;
 	@Column(name="CREATION_DATE")
-	@org.hibernate.annotations.Type(type="org.joda.time.contrib.hibernate.PersistentDateTime")
+	@org.hibernate.annotations.Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
 	private DateTime creationDate;
 	@Embedded
 	private PaymentCondition paymentCondition;
