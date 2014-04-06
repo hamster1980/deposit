@@ -11,51 +11,51 @@ import com.google.common.base.Objects;
 @Embeddable
 public class PaymentCondition implements Persistable<Long> {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Transient
-	private final long key;
-	@Transient
-	private Integer operationKey;
-	@Embedded
-	private Amount fullAmount;
-	
-	public PaymentCondition() {
-		this(0);
-	}
-	
-	public PaymentCondition(long key) {
-		this.key = key;
-	}
+    @Transient
+    private final long key;
+    @Transient
+    private Integer operationKey;
+    @Embedded
+    private Amount fullAmount;
 
-	@Override
-	public Long getId() {
-		return key;
-	}
+    public PaymentCondition() {
+        this(0);
+    }
 
-	@Override
-	public boolean isNew() {
-		return key == 0;
-	}
+    public PaymentCondition(long key) {
+        this.key = key;
+    }
 
-	public Integer getOperationKey() {
-		return operationKey;
-	}
+    @Override
+    public Long getId() {
+        return key;
+    }
 
-	public void setOperationKey(Integer operationKey) {
-		this.operationKey = operationKey;
-	}
+    @Override
+    public boolean isNew() {
+        return key == 0;
+    }
 
-	public Amount getFullAmount() {
-		return fullAmount;
-	}
+    public Integer getOperationKey() {
+        return operationKey;
+    }
 
-	public PaymentCondition setFullAmount(Amount fullAmount) {
-		this.fullAmount = fullAmount;
-		return this;
-	}
+    public void setOperationKey(Integer operationKey) {
+        this.operationKey = operationKey;
+    }
 
-	@Override
+    public Amount getFullAmount() {
+        return fullAmount;
+    }
+
+    public PaymentCondition setFullAmount(Amount fullAmount) {
+        this.fullAmount = fullAmount;
+        return this;
+    }
+
+    @Override
     public int hashCode() {
         return Objects.hashCode(key);
     }
@@ -63,16 +63,14 @@ public class PaymentCondition implements Persistable<Long> {
     @Override
     public boolean equals(Object obj) {
         return obj instanceof PaymentCondition
-                && Objects.equal(((PaymentCondition)obj).key, key);
+                && Objects.equal(((PaymentCondition) obj).key, key);
     }
 
     @Override
     public String toString() {
-        return Objects.toStringHelper(this)
-        			.add("key", key)
-        			.add("operation", operationKey)
-        			.add("fullAmount", fullAmount)
-        				.toString();
+        return Objects.toStringHelper(this).add("key", key)
+                .add("operation", operationKey).add("fullAmount", fullAmount)
+                .toString();
     }
 
 }

@@ -5,8 +5,8 @@ import com.hamster.operation.StartParams;
 
 public interface OperationService {
 
-	Operation getOperation(long key);
-	
-	Operation start(StartParams params);
-	
+    Operation getOperation(long key);
+
+    Operation start(StartParams params);
+
 }

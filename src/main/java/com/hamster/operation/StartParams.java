@@ -6,9 +6,12 @@ import com.hamster.model.Type;
 
 public interface StartParams {
 
-	Type getType();
-	long getAuthor();
-	OperationRole getAuthorRole();
-	PaymentCondition getPaymentCondition();
+    Type getType();
+
+    long getAuthor();
+
+    OperationRole getAuthorRole();
+
+    PaymentCondition getPaymentCondition();
 
 }

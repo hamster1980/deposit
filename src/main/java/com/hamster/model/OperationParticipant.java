@@ -17,85 +17,85 @@ import com.hamster.Stateable;
 import com.hamster.Typeable;
 
 @Entity
-@Table(name="OPERATION_PARTICIPANT")
+@Table(name = "OPERATION_PARTICIPANT")
 public class OperationParticipant implements Stateable, Typeable, Persistable<Long> {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Id
-	@Column(name="ID")
-	@GeneratedValue
-	private final long key;
-	@ManyToOne
-	@JoinColumn(name="PERSON_ID")
-	private Person person;
-	@ManyToOne
-	@JoinColumn(name="OPERATION_ID")
-	private Operation operation;
-	@Enumerated(EnumType.STRING)
-	@Column(name="STATE_ID")
-	private OperationParticipantStateEnum state;
-	@Enumerated(EnumType.STRING)
-	@Column(name="ROLE_ID")
-	private OperationRoleEnum role;
+    @Id
+    @Column(name = "ID")
+    @GeneratedValue
+    private final long key;
+    @ManyToOne
+    @JoinColumn(name = "PERSON_ID")
+    private Person person;
+    @ManyToOne
+    @JoinColumn(name = "OPERATION_ID")
+    private Operation operation;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "STATE_ID")
+    private OperationParticipantStateEnum state;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "ROLE_ID")
+    private OperationRoleEnum role;
 
-	public OperationParticipant() {
-		this(0);
-	}
-	
-	public OperationParticipant(long key) {
-		this.key = key;
-	}
+    public OperationParticipant() {
+        this(0);
+    }
 
-	@Override
-	public Long getId() {
-		return key;
-	}
+    public OperationParticipant(long key) {
+        this.key = key;
+    }
 
-	@Override
-	public boolean isNew() {
-		return key == 0;
-	}
+    @Override
+    public Long getId() {
+        return key;
+    }
 
-	public Person getPerson() {
-		return person;
-	}
+    @Override
+    public boolean isNew() {
+        return key == 0;
+    }
 
-	public void setPerson(Person person) {
-		this.person = person;
-	}
+    public Person getPerson() {
+        return person;
+    }
 
-	public Operation getOperation() {
-		return operation;
-	}
+    public void setPerson(Person person) {
+        this.person = person;
+    }
 
-	public void setOperation(Operation operation) {
-		this.operation = operation;
-	}
+    public Operation getOperation() {
+        return operation;
+    }
 
-	@Override
-	public State getState() {
-		return state;
-	}
+    public void setOperation(Operation operation) {
+        this.operation = operation;
+    }
 
-	public void setState(OperationParticipantStateEnum state) {
-		this.state = state;
-	}
+    @Override
+    public State getState() {
+        return state;
+    }
 
-	public OperationRole getRole() {
-		return role;
-	}
+    public void setState(OperationParticipantStateEnum state) {
+        this.state = state;
+    }
 
-	public void setRole(OperationRoleEnum role) {
-		this.role = role;
-	}
+    public OperationRole getRole() {
+        return role;
+    }
 
-	@Override
-	public Type getType() {
-		return getRole();
-	}
+    public void setRole(OperationRoleEnum role) {
+        this.role = role;
+    }
 
-	@Override
+    @Override
+    public Type getType() {
+        return getRole();
+    }
+
+    @Override
     public int hashCode() {
         return Objects.hashCode(key);
     }
@@ -103,18 +103,14 @@ public class OperationParticipant implements Stateable, Typeable, Persistable<Lo
     @Override
     public boolean equals(Object obj) {
         return obj instanceof OperationParticipant
-                && Objects.equal(((OperationParticipant)obj).key, key);
+                && Objects.equal(((OperationParticipant) obj).key, key);
     }
 
     @Override
     public String toString() {
-        return Objects.toStringHelper(this)
-        			.add("key", key)
-        			.add("person", person)
-        			.add("operation", operation)
-        			.add("role", role)
-        			.add("state", state)
-        				.toString();
+        return Objects.toStringHelper(this).add("key", key)
+                .add("person", person).add("operation", operation)
+                .add("role", role).add("state", state).toString();
     }
 
 }

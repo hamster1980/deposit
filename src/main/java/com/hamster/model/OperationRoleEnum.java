@@ -3,19 +3,16 @@ package com.hamster.model;
 import java.io.Serializable;
 
 public enum OperationRoleEnum implements OperationRole {
-	PAYER,
-	MEDIATOR,
-	CLAIMANT
-	;
+    PAYER, MEDIATOR, CLAIMANT;
 
-	@Override
-	public Serializable getId() {
-		return Enums.getKey(this);
-	}
+    @Override
+    public Serializable getId() {
+        return Enums.getKey(this);
+    }
 
-	@Override
-	public boolean isNew() {
-		return false;
-	}
+    @Override
+    public boolean isNew() {
+        return false;
+    }
 
 }

@@ -19,34 +19,37 @@ import com.hamster.repository.OperationRepository;
 @Transactional
 public class OperationServiceImpl implements OperationService {
 
-	@Autowired
-	private OperationRepository repository;
-	@Autowired
-	private OperationParticipantService participantService; 
-	@Autowired
-	private ErrorCodeService errorCodeService;
-	
-	@Override
-	public Operation getOperation(long key) {
-		return repository.findOne(key);
-	}
-	
-	@Override
-	public Operation start(StartParams params) {
-		Preconditions.checkNotNull(params);
-		Preconditions.checkNotNull(params.getPaymentCondition());
-		Amount amount = params.getPaymentCondition().getFullAmount();
-		if(amount.isEmpty() || !amount.isSign()) {
-			Utils.throwErrorCodeException(errorCodeService, OperationErrorCodeTypeEnum.OPERATION_AMOUNT_IS_LESS_THEN_MIN);
-		}
-		Operation operation = new Operation();
-		operation.setPaymentCondition(params.getPaymentCondition());
-		operation.setState(OperationStateEnum.STARTED);
-		operation.setType((OperationTypeEnum) params.getType());
-		operation.setCreationDate(DateTime.now());
-		operation = repository.saveAndFlush(operation);
-		participantService.addParticipant(operation.getId(), params.getAuthor(), params.getAuthorRole());
-		return operation;
-	}
+    @Autowired
+    private OperationRepository repository;
+    @Autowired
+    private OperationParticipantService participantService;
+    @Autowired
+    private ErrorCodeService errorCodeService;
+
+    @Override
+    public Operation getOperation(long key) {
+        return repository.findOne(key);
+    }
+
+    @Override
+    public Operation start(StartParams params) {
+        Preconditions.checkNotNull(params);
+        Preconditions.checkNotNull(params.getPaymentCondition());
+        Amount amount = params.getPaymentCondition().getFullAmount();
+        if (amount.isEmpty() || !amount.isSign()) {
+            Utils.throwErrorCodeException(
+                    errorCodeService,
+                    OperationErrorCodeTypeEnum.OPERATION_AMOUNT_IS_LESS_THEN_MIN);
+        }
+        Operation operation = new Operation();
+        operation.setPaymentCondition(params.getPaymentCondition());
+        operation.setState(OperationStateEnum.STARTED);
+        operation.setType((OperationTypeEnum) params.getType());
+        operation.setCreationDate(DateTime.now());
+        operation = repository.saveAndFlush(operation);
+        participantService.addParticipant(operation.getId(),
+                params.getAuthor(), params.getAuthorRole());
+        return operation;
+    }
 
 }
