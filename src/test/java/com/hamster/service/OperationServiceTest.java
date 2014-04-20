@@ -19,9 +19,9 @@ import com.hamster.model.Operation;
 import com.hamster.model.OperationErrorCodeTypeEnum;
 import com.hamster.model.OperationParticipant;
 import com.hamster.model.OperationStateEnum;
-import com.hamster.model.State;
 import com.hamster.operation.StartParams;
 import com.hamster.operation.StartParamsBuilder;
+import com.hamster.state.State;
 
 @ContextConfiguration(classes={TestConfig.class})
 @DataSets(setUpDataSet="/com/hamster/service/TestData.xls")

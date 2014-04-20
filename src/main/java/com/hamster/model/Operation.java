@@ -13,8 +13,10 @@ import org.joda.time.DateTime;
 import org.springframework.data.domain.Persistable;
 
 import com.google.common.base.Objects;
-import com.hamster.Stateable;
-import com.hamster.Typeable;
+import com.hamster.state.State;
+import com.hamster.state.Stateable;
+import com.hamster.type.Type;
+import com.hamster.type.Typeable;
 
 @Entity
 @Table(name = "OPERATION")

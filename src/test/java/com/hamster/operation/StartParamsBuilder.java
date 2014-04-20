@@ -7,7 +7,7 @@ import com.hamster.model.OperationRole;
 import com.hamster.model.OperationRoleEnum;
 import com.hamster.model.OperationTypeEnum;
 import com.hamster.model.PaymentCondition;
-import com.hamster.model.Type;
+import com.hamster.type.Type;
 
 public class StartParamsBuilder {
 

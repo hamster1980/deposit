@@ -2,8 +2,15 @@ package com.hamster.model;
 
 import java.io.Serializable;
 
-public enum OperationStateEnum implements State {
-    STARTED, WORKING, FINISHED, ;
+import org.springframework.data.domain.Persistable;
+
+import com.hamster.state.State;
+
+public enum OperationStateEnum implements State, Persistable<Serializable> {
+    STARTED, 
+    WORKING, 
+    FINISHED, 
+    ;
 
     @Override
     public Serializable getId() {

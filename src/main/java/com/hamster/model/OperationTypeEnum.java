@@ -2,8 +2,13 @@ package com.hamster.model;
 
 import java.io.Serializable;
 
-public enum OperationTypeEnum implements Type {
-    FLAT_RENTING, ;
+import org.springframework.data.domain.Persistable;
+
+import com.hamster.type.Type;
+
+public enum OperationTypeEnum implements Type, Persistable<Serializable> {
+    FLAT_RENTING, 
+    ;
 
     @Override
     public Serializable getId() {
