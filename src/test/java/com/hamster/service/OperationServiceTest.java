@@ -41,7 +41,25 @@ public class OperationServiceTest extends AServiceTest{
 	}
 	
 	@Test
+	public void testStartForUnauthorizedUser() {
+        createOperationWithException(
+                StartParamsBuilder.create().build(),
+                null
+        );
+	}
+
+	@Test
+    public void testStartForUserWithoutGrand() {
+	    defaultLogin();
+        createOperationWithException(
+                StartParamsBuilder.create().build(),
+                null
+        );
+    }
+	
+	@Test
 	public void testStartWithCorrectParams() {
+	    defaultLogin(OperationService.CREATE_OPERATION_GRAND);
 		StartParams params = StartParamsBuilder.create().build();
 		Operation operation = service.start(params);
 		emf.flush();
@@ -56,6 +74,7 @@ public class OperationServiceTest extends AServiceTest{
 	
 	@Test
 	public void testStartForUnexistedPerson() {
+	    defaultLogin(OperationService.CREATE_OPERATION_GRAND);
 		//todo: check that there no any new records in database
 		createOperationWithException(
 				StartParamsBuilder.create()
@@ -67,6 +86,7 @@ public class OperationServiceTest extends AServiceTest{
 
 	@Test
 	public void testStartForIncorrectAmount() {
+	    defaultLogin(OperationService.CREATE_OPERATION_GRAND);
 		for(Entry<Amount, OperationErrorCodeTypeEnum> entry : ImmutableMap.of(
 												Amount.create(Currency.getInstance("RUB")), OperationErrorCodeTypeEnum.OPERATION_AMOUNT_IS_LESS_THEN_MIN
 												, Amount.create("-1", Currency.getInstance("RUB")), OperationErrorCodeTypeEnum.OPERATION_AMOUNT_IS_LESS_THEN_MIN
