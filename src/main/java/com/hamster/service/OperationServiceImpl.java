@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.base.Preconditions;
+import com.hamster.confirmation.ConfirmParams;
 import com.hamster.error.Utils;
 import com.hamster.model.Amount;
 import com.hamster.model.Operation;
@@ -47,9 +48,13 @@ public class OperationServiceImpl implements OperationService {
         operation.setType((OperationTypeEnum) params.getType());
         operation.setCreationDate(DateTime.now());
         operation = repository.saveAndFlush(operation);
-        participantService.addParticipant(operation.getId(),
-                params.getAuthor(), params.getAuthorRole());
+        participantService.addParticipant(operation.getId(), params.getAuthor(), params.getAuthorRole());
+        //todo: send confirmation
         return operation;
+    }
+
+    @Override
+    public void confirm(ConfirmParams params) {
     }
 
 }

@@ -5,7 +5,6 @@ import com.hamster.model.OperationRole;
 
 public interface OperationParticipantService {
 
-    OperationParticipant addParticipant(long operation, long person,
-            OperationRole role);
+    OperationParticipant addParticipant(long operation, long person, OperationRole role);
 
 }

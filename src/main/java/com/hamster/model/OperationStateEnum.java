@@ -7,7 +7,8 @@ import org.springframework.data.domain.Persistable;
 import com.hamster.state.State;
 
 public enum OperationStateEnum implements State, Persistable<Serializable> {
-    STARTED, 
+    STARTED,
+    CONFIRMED,
     WORKING, 
     FINISHED, 
     ;

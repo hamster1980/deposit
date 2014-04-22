@@ -7,6 +7,7 @@ import com.hamster.model.OperationRole;
 import com.hamster.model.OperationRoleEnum;
 import com.hamster.model.OperationTypeEnum;
 import com.hamster.model.PaymentCondition;
+import com.hamster.model.PersonContactTypeEnum;
 import com.hamster.type.Type;
 
 public class StartParamsBuilder {
@@ -47,7 +48,10 @@ public class StartParamsBuilder {
 		final PaymentCondition condition = new PaymentCondition();
 		condition.setFullAmount(amount);
 		return new StartParams() {
-			@Override
+
+		    private static final long serialVersionUID = 1L;
+            
+		    @Override
 			public Type getType() {
 				return type;
 			}
@@ -63,6 +67,10 @@ public class StartParamsBuilder {
 			public PaymentCondition getPaymentCondition() {
 				return condition;
 			}
+            @Override
+            public Type getContactType() {
+                return PersonContactTypeEnum.EMAIL;
+            }
 		};
 	}
 }

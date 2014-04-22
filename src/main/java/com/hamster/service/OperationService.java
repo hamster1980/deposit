@@ -2,6 +2,7 @@ package com.hamster.service;
 
 import org.springframework.security.access.annotation.Secured;
 
+import com.hamster.confirmation.ConfirmParams;
 import com.hamster.model.Operation;
 import com.hamster.operation.StartParams;
 
@@ -13,5 +14,7 @@ public interface OperationService {
 
     @Secured(OperationService.CREATE_OPERATION_GRAND)
     Operation start(StartParams params);
+    
+    void confirm(ConfirmParams params);
 
 }

@@ -18,6 +18,7 @@ import com.hamster.model.ErrorCodeType;
 import com.hamster.model.Operation;
 import com.hamster.model.OperationErrorCodeTypeEnum;
 import com.hamster.model.OperationParticipant;
+import com.hamster.model.OperationParticipantStateEnum;
 import com.hamster.model.OperationStateEnum;
 import com.hamster.operation.StartParams;
 import com.hamster.operation.StartParamsBuilder;
@@ -30,6 +31,15 @@ public class OperationServiceTest extends AServiceTest{
 	@Autowired
 	private OperationService service;
 
+	/*
+	 * confirm
+	 * 1. trying to confirm when status is not STARTED
+	 * 2. check status of operation after confirmation
+	 * 3. check status of operation author after confirmation
+	 * 4. code for entity of another type
+	 * 5. check current user equals author of operation
+	 */
+	
 	@Test
 	@DataSets(setUpDataSet="/com/hamster/service/OperationServiceGetOperation.xls")
 	public void testGetOperation() {
@@ -70,6 +80,7 @@ public class OperationServiceTest extends AServiceTest{
 		OperationParticipant author = Iterables.getFirst(participants, null);
 		assertNotNull(author.getPerson());
 		assertTrue(author.getPerson().getId() == 1L);
+		assertEquals(OperationParticipantStateEnum.WAITED, author.getState());
 	}
 	
 	@Test

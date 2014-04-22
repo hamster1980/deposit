@@ -25,6 +25,11 @@
 			<artifactId>platform-person</artifactId>
 			<version>${hamster.platform.version}</version>
 		</dependency>
+        <dependency>
+            <groupId>com.hamster</groupId>
+            <artifactId>platform-confirmation</artifactId>
+            <version>${hamster.platform.version}</version>
+        </dependency>
 		<dependency>
 			<groupId>com.hamster</groupId>
 			<artifactId>platform-test</artifactId>
@@ -63,7 +68,7 @@
     		<groupId>org.jadira.usertype</groupId>
     		<artifactId>usertype.core</artifactId>
     		<version>3.0.0.CR1</version>
-		</dependency>		
+		</dependency>
 	</dependencies>
 	
 </project>
