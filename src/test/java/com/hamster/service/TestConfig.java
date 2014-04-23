@@ -13,9 +13,12 @@ public class TestConfig extends AServiceTestConfig {
 	protected Collection<String> getScripts() {
 		return ImmutableSet.of("classpath:db/common-schema.sql"
 		                        , "classpath:db/person-schema.sql"
-								, "classpath:db/schema.sql"
-								, "classpath:db/operation-data.sql"
-								, "classpath:db/data.sql"
+		                        , "classpath:db/person-data.sql"
+		                        , "classpath:db/confirmation-schema.sql"
+		                        , "classpath:db/confirmation-data.sql"
+		                        , "classpath:db/operation-schema.sql"
+		                        , "classpath:db/operation-data.sql"
+								
 		);
 	}
 }

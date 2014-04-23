@@ -54,7 +54,7 @@ public class OperationServiceImpl implements OperationService {
     }
 
     @Override
-    public void confirm(ConfirmParams params) {
+    public void confirmStart(ConfirmParams params) {
     }
 
 }

@@ -11,8 +11,10 @@
 		<jdbc:embedded-database id="dataSource" type="H2">
 			<jdbc:script location="classpath:db/common-schema.sql" />
 			<jdbc:script location="classpath:db/person-schema.sql" />
-			<jdbc:script location="classpath:db/schema.sql" />
-			<jdbc:script location="classpath:db/data.sql" />
+			<jdbc:script location="classpath:db/person-data.sql" />
+            <jdbc:script location="classpath:db/confirmation-schema.sql" />
+            <jdbc:script location="classpath:db/confirmation-data.sql" />
+			<jdbc:script location="classpath:db/operation-schema.sql" />
 			<jdbc:script location="classpath:db/operation-data.sql" />
 		</jdbc:embedded-database>
 	</beans>

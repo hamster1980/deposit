@@ -15,6 +15,6 @@ public interface OperationService {
     @Secured(OperationService.CREATE_OPERATION_GRAND)
     Operation start(StartParams params);
     
-    void confirm(ConfirmParams params);
+    void confirmStart(ConfirmParams params);
 
 }
