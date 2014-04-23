@@ -7,6 +7,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.base.Preconditions;
 import com.hamster.confirmation.ConfirmParams;
+import com.hamster.confirmation.SendParams;
+import com.hamster.confirmation.SimpleSendParams;
 import com.hamster.error.Utils;
 import com.hamster.model.Amount;
 import com.hamster.model.Operation;
@@ -15,6 +17,8 @@ import com.hamster.model.OperationStateEnum;
 import com.hamster.model.OperationTypeEnum;
 import com.hamster.operation.StartParams;
 import com.hamster.repository.OperationRepository;
+import com.hamster.type.Type;
+import com.puppycrawl.tools.checkstyle.checks.design.FinalClassCheck;
 
 @Service("operationService")
 @Transactional
@@ -26,6 +30,8 @@ public class OperationServiceImpl implements OperationService {
     private OperationParticipantService participantService;
     @Autowired
     private ErrorCodeService errorCodeService;
+    @Autowired
+    private ConfirmationService confirmationService;
 
     @Override
     public Operation getOperation(long key) {
@@ -33,7 +39,7 @@ public class OperationServiceImpl implements OperationService {
     }
 
     @Override
-    public Operation start(StartParams params) {
+    public Operation start(final StartParams params) {
         Preconditions.checkNotNull(params);
         Preconditions.checkNotNull(params.getPaymentCondition());
         Amount amount = params.getPaymentCondition().getFullAmount();
@@ -49,7 +55,7 @@ public class OperationServiceImpl implements OperationService {
         operation.setCreationDate(DateTime.now());
         operation = repository.saveAndFlush(operation);
         participantService.addParticipant(operation.getId(), params.getAuthor(), params.getAuthorRole());
-        //todo: send confirmation
+        confirmationService.create(new SimpleSendParams(params.getAuthor(), params.getContactType(), operation.getId()));
         return operation;
     }
 
