@@ -7,7 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.base.Preconditions;
 import com.hamster.confirmation.ConfirmParams;
-import com.hamster.confirmation.SendParams;
 import com.hamster.confirmation.SimpleSendParams;
 import com.hamster.error.Utils;
 import com.hamster.model.Amount;
@@ -17,8 +16,6 @@ import com.hamster.model.OperationStateEnum;
 import com.hamster.model.OperationTypeEnum;
 import com.hamster.operation.StartParams;
 import com.hamster.repository.OperationRepository;
-import com.hamster.type.Type;
-import com.puppycrawl.tools.checkstyle.checks.design.FinalClassCheck;
 
 @Service("operationService")
 @Transactional

@@ -9,9 +9,11 @@ import java.util.Map.Entry;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
+import com.hamster.confirmation.SendParams;
 import com.hamster.error.ErrorCodeException;
 import com.hamster.model.Amount;
 import com.hamster.model.ErrorCodeType;
@@ -23,6 +25,9 @@ import com.hamster.model.OperationStateEnum;
 import com.hamster.operation.StartParams;
 import com.hamster.operation.StartParamsBuilder;
 import com.hamster.state.State;
+import com.hamster.test.Utils;
+
+import static org.mockito.Mockito.*;
 
 @ContextConfiguration(classes={TestConfig.class})
 @DataSets(setUpDataSet="/com/hamster/service/TestData.xls")
@@ -71,6 +76,7 @@ public class OperationServiceTest extends AServiceTest{
 	public void testStartWithCorrectParams() {
 	    defaultLogin(OperationService.CREATE_OPERATION_GRAND);
 		StartParams params = StartParamsBuilder.create().build();
+		ConfirmationService confirmationService = mockConfirmationService();
 		Operation operation = service.start(params);
 		emf.flush();
 		checkOperation(operation, params, OperationStateEnum.STARTED);
@@ -81,6 +87,17 @@ public class OperationServiceTest extends AServiceTest{
 		assertNotNull(author.getPerson());
 		assertTrue(author.getPerson().getId() == 1L);
 		assertEquals(OperationParticipantStateEnum.WAITED, author.getState());
+		verify(confirmationService, times(1)).create(any(SendParams.class));
+	}
+	
+	private ConfirmationService mockConfirmationService() {
+	    ConfirmationService confirmationService = mock(ConfirmationService.class);
+	    try {
+            ReflectionTestUtils.setField(Utils.unwrapProxy(service, OperationService.class), "confirmationService", confirmationService);
+        } catch (Exception e) {
+            assertTrue(e.getMessage(), false);
+        }
+	    return confirmationService;
 	}
 	
 	@Test
