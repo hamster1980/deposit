@@ -52,7 +52,7 @@ public class OperationServiceImpl implements OperationService {
         operation.setCreationDate(DateTime.now());
         operation = repository.saveAndFlush(operation);
         participantService.addParticipant(operation.getId(), params.getAuthor(), params.getAuthorRole());
-        confirmationService.create(new SimpleSendParams(params.getAuthor(), params.getContactType(), operation.getId()));
+        confirmationService.create(new SimpleSendParams(params.getAuthor(), params.getContactType(), operation.getId(), CREATE_OPERATION_CONFIRMATION_TYPE));
         return operation;
     }
 
