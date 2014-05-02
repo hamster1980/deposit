@@ -10,6 +10,7 @@ import com.hamster.confirmation.ConfirmParams;
 import com.hamster.confirmation.SimpleSendParams;
 import com.hamster.error.Utils;
 import com.hamster.model.Amount;
+import com.hamster.model.Confirmation;
 import com.hamster.model.Operation;
 import com.hamster.model.OperationErrorCodeTypeEnum;
 import com.hamster.model.OperationStateEnum;
@@ -40,6 +41,7 @@ public class OperationServiceImpl implements OperationService {
         Preconditions.checkNotNull(params);
         Preconditions.checkNotNull(params.getPaymentCondition());
         Amount amount = params.getPaymentCondition().getFullAmount();
+        //todo: use validator
         if (amount.isEmpty() || !amount.isSign()) {
             Utils.throwErrorCodeException(
                     errorCodeService,
@@ -58,6 +60,13 @@ public class OperationServiceImpl implements OperationService {
 
     @Override
     public void confirmStart(ConfirmParams params) {
+        //todo: test
+        Confirmation c = confirmationService.getConfirmationByCode(params.getCode(), CREATE_OPERATION_CONFIRMATION_TYPE);
+        Operation operation = getOperation(c.getEntityId());
+        //todo: check state, author
+        operation.setState(OperationStateEnum.CONFIRMED);
+        operation = repository.saveAndFlush(operation);
+        confirmationService.confirm(c.getId());
     }
 
 }

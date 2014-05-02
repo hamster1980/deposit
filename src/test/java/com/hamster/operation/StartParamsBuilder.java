@@ -16,6 +16,10 @@ public class StartParamsBuilder {
 		return new StartParamsBuilder();
 	}
 	
+	public static StartParams defaultValue() {
+	    return create().build();
+	}
+	
 	private Type type = OperationTypeEnum.FLAT_RENTING;
 	private long author = 1;
 	private OperationRole role = OperationRoleEnum.MEDIATOR;

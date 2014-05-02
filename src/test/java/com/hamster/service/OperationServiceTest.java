@@ -9,14 +9,12 @@ import java.util.Map.Entry;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.util.ReflectionTestUtils;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.hamster.confirmation.SendParams;
-import com.hamster.error.ErrorCodeException;
+import com.hamster.error.ErrorCodeExceptionCallback;
 import com.hamster.model.Amount;
-import com.hamster.model.ErrorCodeType;
 import com.hamster.model.Operation;
 import com.hamster.model.OperationErrorCodeTypeEnum;
 import com.hamster.model.OperationParticipant;
@@ -57,18 +55,24 @@ public class OperationServiceTest extends AServiceTest{
 	
 	@Test
 	public void testStartForUnauthorizedUser() {
-        createOperationWithException(
-                StartParamsBuilder.create().build(),
-                null
-        );
+	    testForUnauthorizedUser(new StartInvocation(StartParamsBuilder.defaultValue()));
 	}
 
 	@Test
     public void testStartForUserWithoutGrand() {
-	    defaultLogin();
-        createOperationWithException(
-                StartParamsBuilder.create().build(),
-                null
+	    testForUserWithoutGrand(new StartInvocation(StartParamsBuilder.defaultValue()));	    
+    }
+
+	@Test
+    public void testStartForUnexistedPerson() {
+        defaultLogin(OperationService.CREATE_OPERATION_GRAND);
+        //todo: check that there no any new records in database
+        Utils.invokeWithException(
+                new StartInvocation(
+                        StartParamsBuilder.create()
+                        .author(2)
+                        .build()
+                )
         );
     }
 	
@@ -76,7 +80,7 @@ public class OperationServiceTest extends AServiceTest{
 	public void testStartWithCorrectParams() {
 	    defaultLogin(OperationService.CREATE_OPERATION_GRAND);
 		StartParams params = StartParamsBuilder.create().build();
-		ConfirmationService confirmationService = mockConfirmationService();
+		ConfirmationService confirmationService = Utils.createMock(service, ConfirmationService.class, "confirmationService");
 		Operation operation = service.start(params);
 		emf.flush();
 		checkOperation(operation, params, OperationStateEnum.STARTED);
@@ -90,27 +94,6 @@ public class OperationServiceTest extends AServiceTest{
 		verify(confirmationService, times(1)).create(any(SendParams.class));
 	}
 	
-	private ConfirmationService mockConfirmationService() {
-	    ConfirmationService confirmationService = mock(ConfirmationService.class);
-	    try {
-            ReflectionTestUtils.setField(Utils.unwrapProxy(service, OperationService.class), "confirmationService", confirmationService);
-        } catch (Exception e) {
-            assertTrue(e.getMessage(), false);
-        }
-	    return confirmationService;
-	}
-	
-	@Test
-	public void testStartForUnexistedPerson() {
-	    defaultLogin(OperationService.CREATE_OPERATION_GRAND);
-		//todo: check that there no any new records in database
-		createOperationWithException(
-				StartParamsBuilder.create()
-					.author(2)
-					.build(),
-				null
-		);
-	}
 
 	@Test
 	public void testStartForIncorrectAmount() {
@@ -120,23 +103,16 @@ public class OperationServiceTest extends AServiceTest{
 												, Amount.create("-1", Currency.getInstance("RUB")), OperationErrorCodeTypeEnum.OPERATION_AMOUNT_IS_LESS_THEN_MIN
 												//todo: max value
 										  	).entrySet()) {
-			createOperationWithException(
-					StartParamsBuilder.create()
-						.amount(entry.getKey())
-						.build(),
-					entry.getValue()
-			);
-		}
-	}
-	
-	private void createOperationWithException(StartParams params, ErrorCodeType errorType) {
-		try {
-			service.start(params);
-			assertTrue(false);
-		} catch(Exception e) {
-			if(errorType != null) {
-				assertTrue(e instanceof ErrorCodeException && ((ErrorCodeException)e).getError().getType().equals(errorType.toString()));
-			}
+	        Utils.invokeWithException(
+	                new ErrorCodeExceptionCallback(
+	                        new StartInvocation(
+	                                StartParamsBuilder.create()
+	                                .amount(entry.getKey())
+	                                .build()
+	                        ),
+	                        entry.getValue()) {
+	                }
+	        );
 		}
 	}
 	
@@ -149,5 +125,19 @@ public class OperationServiceTest extends AServiceTest{
 		assertNotNull(operation.getPaymentCondition());
 		assertEquals(params.getPaymentCondition().getFullAmount(), operation.getPaymentCondition().getFullAmount());
 	}
-	
+
+	public class StartInvocation implements Utils.InvocationCallback{
+
+	    private StartParams params;
+	    
+        public StartInvocation(StartParams params) {
+            this.params = params;
+        }
+
+        @Override
+        public void invoke() throws Exception {
+            service.start(params);
+        }
+
+	}
 }

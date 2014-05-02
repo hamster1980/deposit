@@ -20,6 +20,13 @@
 			<artifactId>platform-common</artifactId>
 			<version>${hamster.platform.version}</version>
 		</dependency>
+        <dependency>
+            <groupId>com.hamster</groupId>
+            <artifactId>platform-common</artifactId>
+            <version>${hamster.platform.version}</version>
+            <type>test-jar</type>
+            <scope>test</scope>            
+        </dependency>
 		<dependency>
 			<groupId>com.hamster</groupId>
 			<artifactId>platform-person</artifactId>
